@@ -31,15 +31,15 @@ export interface CampingDetailsInteface {
   rating: number
   totalReviews: number
   coordinates: {
-    lat: number
-    lng: number
+    lat: number | null
+    lng: number | null
   }
   prices: {
-    motorcycle: number
-    car: number
-    van: number
-    kiosk: number
-    motorhome: number
+    motorcycle: number | null
+    car: number | null
+    van: number | null
+    kiosk: number | null
+    motorhome: number | null
   }
   amenities: {
     store: boolean

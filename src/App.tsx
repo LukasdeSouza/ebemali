@@ -4,6 +4,7 @@ import LoginPage from './pages/login'
 import { ProtectedRoute } from './pages/protected-routes'
 import { CampingList } from './pages/protected-routes/campings'
 import { CampingDetails } from './pages/protected-routes/campings/details'
+import CampingRegistration from './pages/protected-routes/campings/registration'
 
 function App() {
   return (
@@ -27,6 +28,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <CampingDetails />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/campings/registration" 
+            element={
+              <ProtectedRoute>
+                <CampingRegistration />
               </ProtectedRoute>
             } 
           />

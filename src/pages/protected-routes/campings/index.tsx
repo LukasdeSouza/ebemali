@@ -76,7 +76,7 @@ export const CampingList = () => {
           <p className="text-gray-600">
             {filteredCampings.length} camping{filteredCampings.length !== 1 ? 's' : ''} encontrado{filteredCampings.length !== 1 ? 's' : ''}
           </p>
-          <Link to="/campings/new">
+          <Link to="/campings/registration">
             <button className="cursor-pointer bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
               Adicionar Camping
             </button>
