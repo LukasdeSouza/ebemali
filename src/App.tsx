@@ -5,6 +5,7 @@ import { ProtectedRoute } from './pages/protected-routes'
 import { CampingList } from './pages/protected-routes/campings'
 import { CampingDetails } from './pages/protected-routes/campings/details'
 import CampingRegistration from './pages/protected-routes/campings/registration'
+import HomePage from './pages/home'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Router>
         <Routes>
           {/* Rota pública */}
+          <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           
           {/* Rotas protegidas */}
