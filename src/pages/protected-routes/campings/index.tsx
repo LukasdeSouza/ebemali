@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { CampingCard } from '../../../components/CampingCard'
-import type { Camping, CampingDetailsInteface } from '../../../types/camping'
+import type { CampingDetailsInteface } from '../../../types/camping'
 import { Link } from 'react-router-dom'
 import { db } from '../../../data/campingsDB'
 
