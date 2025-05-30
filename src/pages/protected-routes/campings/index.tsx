@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react'
-import { useAuth } from '../../../context/AuthContext'
 import { CampingCard } from '../../../components/CampingCard'
 import { mockCampings } from '../../../mocks'
 import type { Camping } from '../../../types/camping'
 
 export const CampingList = () => {
-  const { user, logout } = useAuth()
   const [campings, setCampings] = useState<Camping[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
@@ -38,33 +36,6 @@ export const CampingList = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <img 
-                src="/logo.png" 
-                alt="Ben Jali" 
-                className="h-8 w-8 rounded-full"
-              />
-              <span className="ml-3 text-xl font-bold text-gray-900">
-                É BEM <span className="text-yellow-400">ALI</span>
-              </span>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <span className="text-gray-700">Olá, <b>{user?.name}</b></span>
-              <button
-                onClick={logout}
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Sair
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -76,7 +47,7 @@ export const CampingList = () => {
           <p className="text-lg text-gray-600 mb-6">
             Encontre o local perfeito para sua próxima aventura na natureza
           </p>
-          
+
           {/* Search Bar */}
           <div className="max-w-md mx-auto">
             <div className="relative">

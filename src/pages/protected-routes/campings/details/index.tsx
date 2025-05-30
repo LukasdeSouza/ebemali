@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import CampingMap from "../../../../components/CampingMap"
-import { useAuth } from "../../../../context/AuthContext"
 import type { CampingDetailsInteface } from "../../../../types/camping"
 import { mockCampingDetails } from "../../../../mocks"
 
 export const CampingDetails = () => {
   const { id } = useParams<{ id: string }>()
-  const navigate = useNavigate()
-  const { user, logout } = useAuth()
   const [camping, setCamping] = useState<CampingDetailsInteface | null>(null)
   const [loading, setLoading] = useState(true)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
@@ -47,35 +44,6 @@ export const CampingDetails = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Link to="/campings" className="flex items-center">
-                <img 
-                  src="/logo.png" 
-                  alt="é bem ali" 
-                  className="h-8 w-8 rounded-full"
-                />
-                <span className="ml-3 text-xl font-bold text-gray-900">
-                  É BEM <span className="text-yellow-400">ALI</span>
-                </span>
-              </Link>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <span className="text-gray-700">Olá, {user?.name}</span>
-              <button
-                onClick={logout}
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Sair
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
 
       {/* Breadcrumb */}
       <div className="bg-white border-b">
