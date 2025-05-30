@@ -8,7 +8,7 @@ const AuthenticatedNavBar = ({ user, logout }: { user: User | null, logout: () =
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <img
-              src="/logo.png"
+              src="/logo.jpeg"
               alt="Ben Jali"
               className="h-8 w-8 rounded-full"
             />

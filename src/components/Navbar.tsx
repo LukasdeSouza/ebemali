@@ -21,7 +21,7 @@ function Navbar() {
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center">
               <img 
-                src="/logo.png" 
+                src="/logo.jpeg" 
                 alt="É Bem Ali Logo" 
                 className="h-10 w-10 rounded-full"
               />

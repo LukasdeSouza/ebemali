@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const login = async (email: string, password: string) => {
     const mockUser = {
       id: '1',
-      name: 'João Silva',
+      name: 'Bruno & Cida',
       email: email
     }
     

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import type { FormDataLogin } from '../../types/form-datas'
 import { useAuth } from '../../context/AuthContext'
+import toast from 'react-hot-toast'
 
 function LoginPage() {
   const [isLogin, setIsLogin] = useState(true)
@@ -33,6 +34,7 @@ function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    toast.loading('Processando...')
     setIsLoading(true)
     setError('')
 
@@ -55,6 +57,8 @@ function LoginPage() {
         )
 
         if (!user) {
+          toast.dismiss()
+          // toast.error('Email ou senha incorretos')
           throw new Error('Email ou senha incorretos')
         }
 
@@ -90,8 +94,10 @@ function LoginPage() {
       }
 
     } catch (error) {
+      toast.error('Usuário ou senha inválidos')
       setError(error instanceof Error ? error.message : 'Erro desconhecido')
     } finally {
+      toast.dismiss()
       setIsLoading(false)
     }
   }
@@ -113,7 +119,7 @@ function LoginPage() {
         <div className="text-center">
           <Link to="/" className="flex items-center justify-center mb-8">
             <img
-              src="/logo.png"
+              src="/logo.jpeg"
               alt="Ben Jali"
               className="h-12 w-12 rounded-full"
             />

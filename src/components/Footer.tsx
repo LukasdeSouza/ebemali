@@ -13,7 +13,7 @@ function Footer() {
           <div className="md:col-span-2">
             <div className="flex items-center mb-4">
               <img 
-                src="/logo.png" 
+                src="/logo.jpeg" 
                 alt="Ben Jali" 
                 className="h-12 w-12 rounded-full"
               />
@@ -22,8 +22,8 @@ function Footer() {
               </span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed max-w-md">
-              Transformando ideias em soluções digitais inovadoras. 
-              Desenvolvemos experiências únicas que conectam pessoas e tecnologia.
+              Acompanhe os melhores campings, hostings e hospedagens no Brasil e região. 
+              Desenvolvido por <a className='text-yellow-500' href="www.codetech.software/br" target='_blank'>Codetech Software</a>.
             </p>
             
             {/* Social media links */}
