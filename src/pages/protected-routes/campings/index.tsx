@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { CampingCard } from '../../../components/CampingCard'
 import { mockCampings } from '../../../mocks'
 import type { Camping } from '../../../types/camping'
+import { Link } from 'react-router-dom'
 
 export const CampingList = () => {
   const [campings, setCampings] = useState<Camping[]>([])
@@ -71,10 +72,15 @@ export const CampingList = () => {
         </div>
 
         {/* Results Info */}
-        <div className="mb-6">
+        <div className="w-full flex flex-row items-center justify-between mb-6">
           <p className="text-gray-600">
             {filteredCampings.length} camping{filteredCampings.length !== 1 ? 's' : ''} encontrado{filteredCampings.length !== 1 ? 's' : ''}
           </p>
+          <Link to="/campings/new">
+            <button className="cursor-pointer bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+              Adicionar Camping
+            </button>
+          </Link>
         </div>
 
         {/* Campings Grid */}
