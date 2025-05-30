@@ -105,13 +105,13 @@ const CampingRegistration = () => {
 
     // Adicionar ao array de campings
     campingsDatabase.push(campingData);
-    
+
     console.log('Camping cadastrado:', campingData);
     console.log('Total de campings:', campingsDatabase.length);
     console.log('Database completa:', campingsDatabase);
-    
+
     setIsSubmitted(true);
-    
+
     // Reset form após 3 segundos
     setTimeout(() => {
       setIsSubmitted(false);
@@ -151,34 +151,40 @@ const CampingRegistration = () => {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-2xl p-8 text-center max-w-md">
-          <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Save className="w-8 h-8 text-white" />
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+        <div className="bg-white rounded-lg shadow-sm p-8 text-center max-w-md border border-gray-200">
+          <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Save className="w-8 h-8 text-black" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Camping Cadastrado!</h2>
-          <p className="text-gray-600">O camping foi salvo com sucesso na base de dados.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Camping Cadastrado!</h2>
+          <p className="text-gray-600 mb-6">O camping foi salvo com sucesso na base de dados.</p>
+          <button
+            onClick={() => setIsSubmitted(false)}
+            className="bg-yellow-400 hover:bg-yellow-500 text-black px-6 py-2 rounded-md font-medium transition-colors"
+          >
+            Voltar
+          </button>
         </div>
       </div>
     );
   }
 
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4">
+    <div className="min-h-screen bg-gray-100 p-4">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div className="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
           {/* Header */}
-          <div className="bg-gradient-to-r from-green-600 to-blue-600 p-6 text-white">
-            <h1 className="text-3xl font-bold mb-2">Cadastro de Camping</h1>
+          <div className="bg-yellow-400 p-6 text-black">
+            <h1 className="text-3xl font-bold mb-4">Cadastro de Camping</h1>
             <div className="flex items-center space-x-4">
               {[1, 2, 3, 4].map((step) => (
                 <div key={step} className="flex items-center">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                    step <= currentStep ? 'bg-white text-green-600' : 'bg-green-400 text-white'
-                  }`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${step <= currentStep ? 'bg-black text-yellow-400' : 'bg-gray-200 text-gray-700'
+                    }`}>
                     {step}
                   </div>
-                  {step < 4 && <div className="w-8 h-1 bg-green-400 mx-2" />}
+                  {step < 4 && <div className="w-8 h-1 bg-gray-300 mx-2" />}
                 </div>
               ))}
             </div>
@@ -188,8 +194,8 @@ const CampingRegistration = () => {
             {/* Step 1: Informações Básicas */}
             {currentStep === 1 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-semibold text-gray-800 flex items-center">
-                  <MapPin className="w-6 h-6 mr-2 text-green-600" />
+                <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">
+                  <MapPin className="inline mr-2 mb-1" />
                   Informações Básicas
                 </h2>
 
@@ -296,8 +302,8 @@ const CampingRegistration = () => {
             {/* Step 2: Preços e Comodidades */}
             {currentStep === 2 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-semibold text-gray-800 flex items-center">
-                  <DollarSign className="w-6 h-6 mr-2 text-green-600" />
+                <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">
+                  <DollarSign className="inline mr-2 mb-1" />
                   Preços e Comodidades
                 </h2>
 
@@ -391,8 +397,8 @@ const CampingRegistration = () => {
             {/* Step 3: Horários e Contato */}
             {currentStep === 3 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-semibold text-gray-800 flex items-center">
-                  <Clock className="w-6 h-6 mr-2 text-green-600" />
+                <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">
+                  <Clock className="inline mr-2 mb-1" />
                   Horários e Contato
                 </h2>
 
@@ -501,8 +507,8 @@ const CampingRegistration = () => {
             {/* Step 4: Imagens e Regras */}
             {currentStep === 4 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-semibold text-gray-800 flex items-center">
-                  <Shield className="w-6 h-6 mr-2 text-green-600" />
+                <h2 className="text-xl font-semibold text-gray-900 border-b pb-2 mb-4">
+                  <Shield className="inline mr-2 mb-1" />
                   Imagens e Regras
                 </h2>
 
@@ -576,7 +582,7 @@ const CampingRegistration = () => {
                 type="button"
                 onClick={prevStep}
                 disabled={currentStep === 1}
-                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Anterior
               </button>
@@ -589,7 +595,7 @@ const CampingRegistration = () => {
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                  className="px-6 py-2 bg-yellow-400 text-black rounded-md hover:bg-yellow-500 font-medium transition-colors"
                 >
                   Próximo
                 </button>
@@ -597,7 +603,7 @@ const CampingRegistration = () => {
                 <button
                   type="button"
                   onClick={handleSubmit}
-                  className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center space-x-2"
+                  className="px-6 py-2 bg-yellow-400 text-black rounded-md hover:bg-yellow-500 font-medium transition-colors flex items-center space-x-2"
                 >
                   <Save className="w-4 h-4" />
                   <span>Cadastrar Camping</span>

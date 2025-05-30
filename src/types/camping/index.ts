@@ -16,7 +16,7 @@ export interface Camping {
 }
 
 export interface CampingCardProps {
-  camping: Camping
+  camping: CampingDetailsInteface
 }
 
 export interface CampingDetailsInteface {

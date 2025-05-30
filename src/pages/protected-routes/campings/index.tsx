@@ -1,28 +1,38 @@
 import { useState, useEffect } from 'react'
 import { CampingCard } from '../../../components/CampingCard'
-import { mockCampings } from '../../../mocks'
-import type { Camping } from '../../../types/camping'
+import type { Camping, CampingDetailsInteface } from '../../../types/camping'
 import { Link } from 'react-router-dom'
+import { db } from '../../../data/campingsDB'
 
 export const CampingList = () => {
-  const [campings, setCampings] = useState<Camping[]>([])
+  const [campings, setCampings] = useState<CampingDetailsInteface[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
-  const [filteredCampings, setFilteredCampings] = useState<Camping[]>([])
+  const [filteredCampings, setFilteredCampings] = useState<CampingDetailsInteface[]>([])
 
   useEffect(() => {
-    setTimeout(() => {
-      setCampings(mockCampings)
-      setFilteredCampings(mockCampings)
-      setLoading(false)
-    }, 1000)
-  }, [])
+    const loadData = async () => {
+      try {
+        // Simula um carregamento assíncrono
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        const data = db.findAll(); // Usa o db fictício
+        console.log('Campings carregados:', data);
+        setCampings(data);
+      } catch (error) {
+        console.error('Erro ao carregar campings:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
 
   useEffect(() => {
     const filtered = campings.filter(camping =>
-      camping.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      camping.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      camping.state.toLowerCase().includes(searchTerm.toLowerCase())
+      camping?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      camping?.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      camping?.state.toLowerCase().includes(searchTerm.toLowerCase())
     )
     setFilteredCampings(filtered)
   }, [searchTerm, campings])

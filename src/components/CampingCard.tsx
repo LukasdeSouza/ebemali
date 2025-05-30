@@ -12,7 +12,7 @@ export const CampingCard = ({ camping }: CampingCardProps) => {
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer" onClick={handleViewDetails}>
       <div className="relative">
         <img
-          src={camping.image}
+          src={typeof camping.images === "object" ? camping.images[0] : ""}
           alt={camping.name}
           className="w-full h-48 object-cover"
         />
@@ -44,7 +44,7 @@ export const CampingCard = ({ camping }: CampingCardProps) => {
 
         <div className="flex items-center justify-between">
           <div className="text-lg font-bold text-yellow-600">
-            A partir de R$ {camping.price.toFixed(2)}/noite
+            A partir de R$ {(camping.prices.car ?? 0).toFixed(2)}/noite
           </div>
           <button 
             className="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-md text-sm font-medium transition-colors"

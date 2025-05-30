@@ -1,4 +1,4 @@
-import type { Camping, CampingDetails } from "../types/camping";
+import type { Camping, CampingDetailsInteface } from "../types/camping";
 
 export const mockCampings: Camping[] = [
   {
@@ -63,7 +63,7 @@ export const mockCampings: Camping[] = [
   }
 ]
 
-export const mockCampingDetails: { [key: string]: CampingDetails } = {
+export const mockCampingDetails: { [key: string]: CampingDetailsInteface } = {
     '1': {
       id: '1',
       name: 'Camping Natureza Viva',
