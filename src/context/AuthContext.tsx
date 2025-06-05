@@ -1,67 +1,61 @@
+// src/context/AuthContext.tsx
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
-import type { AuthContextType } from '../types/context/auth'
-import type { User } from '../types/user'
+import { supabase } from '../lib/supabaseClient'
 
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
-
-export const useAuth = () => {
-  const context = useContext(AuthContext)
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider')
-  }
-  return context
+interface AuthContextType {
+  isAuthenticated: boolean;
+  login: (email: string, session: any) => void;
+  logout: () => void;
+  user: any;
 }
 
-interface AuthProviderProps {
-  children: ReactNode
-}
+const AuthContext = createContext<AuthContextType | null>(null)
 
-export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<any>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   useEffect(() => {
-    const checkAuth = () => {
-      const token = localStorage.getItem('authToken')
-      const userData = localStorage.getItem('userData')
-      
-      if (token && userData) {
-        setUser(JSON.parse(userData))
+    const getSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session) {
+        setUser(session.user)
+        setIsAuthenticated(true)
       }
-      setIsLoading(false)
     }
 
-    checkAuth()
+    getSession()
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+      setIsAuthenticated(!!session)
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
 
-  const login = async (email: string, password: string) => {
-    const mockUser = {
-      id: '1',
-      name: 'Bruno & Cida',
-      email: email
-    }
-    
-    localStorage.setItem('authToken', 'mock-token-123')
-    localStorage.setItem('userData', JSON.stringify(mockUser))
-    setUser(mockUser)
+  const login = (email: string, session: any) => {
+    setUser(session.user)
+    setIsAuthenticated(true)
   }
 
-  const logout = () => {
-    localStorage.removeItem('authToken')
-    localStorage.removeItem('userData')
+  const logout = async () => {
+    await supabase.auth.signOut()
     setUser(null)
+    setIsAuthenticated(false)
   }
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      isAuthenticated: !!user,
-      isLoading,
-      login,
-      logout
-    }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, user }}>
       {children}
     </AuthContext.Provider>
   )
+}
+
+export const useAuth = () => {
+  const context = useContext(AuthContext)
+  if (context === null) {
+    throw new Error('useAuth must be used within an AuthProvider')
+  }
+  return context
 }

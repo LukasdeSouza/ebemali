@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import type { FormDataLogin } from '../../types/form-datas'
 import { useAuth } from '../../context/AuthContext'
 import toast from 'react-hot-toast'
+import { supabase } from '../../lib/supabaseClient'
 
 function LoginPage() {
   const [isLogin, setIsLogin] = useState(true)
@@ -40,39 +41,30 @@ function LoginPage() {
 
     try {
       if (isLogin) {
-        // Lógica de Login
+        // Login com Supabase
         if (!formData.email || !formData.password) {
           throw new Error('Email e senha são obrigatórios')
         }
 
-        // Simular validação de credenciais
-        const validUsers = [
-          { email: 'admin@ebemali.com', password: '123456', name: 'Administrador' },
-          { email: 'user@ebemali.com', password: 'password', name: 'João Silva' },
-          { email: 'test@ebemali.com', password: '123', name: 'Usuário Teste' }
-        ]
+        const { error } = await supabase.auth.signInWithPassword({
+          email: formData.email,
+          password: formData.password
+        })
 
-        const user = validUsers.find(u =>
-          u.email === formData.email && u.password === formData.password
-        )
-
-        if (!user) {
-          toast.dismiss()
-          // toast.error('Email ou senha incorretos')
-          throw new Error('Email ou senha incorretos')
+        if (error) {
+          throw new Error(error.message)
         }
 
-        // Simular delay de API
-        await new Promise(resolve => setTimeout(resolve, 1500))
+        // Salva sessão no contexto
+        const session = supabase.auth.getSession()
+        await login(formData.email, session)
 
-        await login(formData.email, formData.password)
-
-        // Redirecionar para página de origem ou campings
+        // Redirecionar
         const from = location.state?.from?.pathname || '/campings'
         navigate(from, { replace: true })
 
       } else {
-        // Lógica de Cadastro
+        // Cadastro com Supabase
         if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
           throw new Error('Todos os campos são obrigatórios')
         }
@@ -85,31 +77,71 @@ function LoginPage() {
           throw new Error('A senha deve ter pelo menos 6 caracteres')
         }
 
-        // Simular cadastro
-        await new Promise(resolve => setTimeout(resolve, 2000))
+        const { error } = await supabase.auth.signUp({
+          email: formData.email,
+          password: formData.password,
+          options: {
+            data: {
+              full_name: formData.name
+            }
+          }
+        })
 
-        // Após cadastro, fazer login automaticamente
-        await login(formData.email, formData.password)
+        if (error) {
+          throw new Error(error.message)
+        }
+
+        // Login automático após cadastro
+        await supabase.auth.signInWithPassword({
+          email: formData.email,
+          password: formData.password
+        })
+
+        const session = supabase.auth.getSession()
+        await login(formData.email, session)
+
         navigate('/campings', { replace: true })
       }
 
     } catch (error) {
-      toast.error('Usuário ou senha inválidos')
       setError(error instanceof Error ? error.message : 'Erro desconhecido')
+      toast.error(error instanceof Error ? error.message : 'Erro desconhecido')
     } finally {
       toast.dismiss()
       setIsLoading(false)
     }
   }
 
-  const handleGoogleLogin = () => {
-    // Implementar lógica de login com Google
-    console.log('Google login clicked')
+  const handleGoogleLogin = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin + '/campings'
+        }
+      })
+
+      if (error) throw error
+    } catch (error) {
+      toast.error('Erro ao fazer login com Google')
+      console.error(error)
+    }
   }
 
-  const handleFacebookLogin = () => {
-    // Implementar lógica de login com Facebook
-    console.log('Facebook login clicked')
+  const handleFacebookLogin = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'facebook',
+        options: {
+          redirectTo: window.location.origin + '/campings'
+        }
+      })
+
+      if (error) throw error
+    } catch (error) {
+      toast.error('Erro ao fazer login com Facebook')
+      console.error(error)
+    }
   }
 
   return (
